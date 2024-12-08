@@ -1,0 +1,52 @@
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add Employee</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Employee Details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- form -->
+        <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="exampleInputName" class="form-label">Employee Name</label>
+            <input type="text" class="form-control" id="exampleInputName" formControlName="name">
+            <div *ngIf="employeeForm.get('name')?.invalid && employeeForm.get('name')?.touched">
+              <div class="text-danger fw-bolder" *ngIf="employeeForm.get('name')?.hasError('required')">Name is required</div>
+              <div class="text-danger fw-bolder" *ngIf="employeeForm.get('name')?.hasError('minlength')">Name must be at least 3 characters</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleInputAge" class="form-label">Employee Age</label>
+            <input type="number" class="form-control" id="exampleInputAge" formControlName="age">
+            <div *ngIf="employeeForm.get('age')?.invalid && employeeForm.get('age')?.touched">
+              <div class="text-danger fw-bolder" *ngIf="employeeForm.get('age')?.hasError('required')">Age is required</div>
+              <div class="text-danger fw-bolder" *ngIf="employeeForm.get('age')?.hasError('pattern')">Invalid age format</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleInputStatus" class="form-label">Employee Status</label>
+            <select formControlName="status" class="form-select" aria-label="Default select example">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+            <div *ngIf="employeeForm.get('status')?.invalid && employeeForm.get('status')?.touched">
+                <div class="text-danger fw-bolder" *ngIf="employeeForm.get('age')?.hasError('required')">Status is required</div>
+                <div class="text-danger fw-bolder" *ngIf="employeeForm.get('age')?.hasError('age')">Invalid Status format</div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" [disabled]="employeeForm.invalid"data-bs-dismiss="modal">Add Employee</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

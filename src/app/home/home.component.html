@@ -1,0 +1,89 @@
+<div class="container my-5">
+    <div class="d-flex justify-content-between">
+        <h1 class="text-primary-emphasis fs-4 fw-bold">Welcome to Employee Ease!</h1>
+        <app-add-emp (employeeAdded)="onEmployeeAdded($event)"></app-add-emp>
+    </div>
+    <div class="mt-4">
+        <table class="table table-success table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Employee Name</th>
+                    <th>Employee Age</th>
+                    <th>Employee Status</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (employee of allEmployees; track $index;let i=$index) {
+                    <tr>
+                        <td>{{i+1}}</td>
+                        <td>{{ employee.name }}</td>
+                        <td>{{ employee.age }}</td>
+                        <td>{{ employee.status }}</td>
+                        <td class="text-center">
+                            <button class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" (click)="onEdit(employee)">
+                                <i class="fa-solid fa-edit text-primary"></i>
+                            </button>
+                              
+                        </td>
+                        <td class="text-center"><button class="btn" (click)="onDelete(employee)"><i class="fa-solid fa-trash text-danger"></i></button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Update Employee Details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- form -->
+          <form [formGroup]="employeeForm" (ngSubmit)="onSubmit(selectedEmployee.id)">
+            <div class="mb-3">
+              <label for="exampleInputName1" class="form-label">Employee Name</label>
+              <input type="text" class="form-control" id="exampleInputName1" formControlName="name">
+              <div *ngIf="employeeForm.get('name')?.invalid && employeeForm.get('name')?.touched">
+                <div class="text-danger fw-bolder" *ngIf="employeeForm.get('name')?.hasError('required')">Name is required</div>
+                <div class="text-danger fw-bolder" *ngIf="employeeForm.get('name')?.hasError('minlength')">Name must be at least 3 characters</div>
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label for="exampleInputAge1" class="form-label">Employee Age</label>
+              <input type="number" class="form-control" id="exampleInputAge1" formControlName="age">
+              <div *ngIf="employeeForm.get('age')?.invalid && employeeForm.get('age')?.touched">
+                <div class="text-danger fw-bolder" *ngIf="employeeForm.get('age')?.hasError('required')">Age is required</div>
+                <div class="text-danger fw-bolder" *ngIf="employeeForm.get('age')?.hasError('pattern')">Invalid age format</div>
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label for="exampleInputStatus1" class="form-label">Employee Status</label>
+              <select formControlName="status" id="exampleInputStatus1" class="form-select" aria-label="Default select example" >
+                  <option selected value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+              </select>
+              <div *ngIf="employeeForm.get('status')?.invalid && employeeForm.get('status')?.touched">
+                  <div class="text-danger fw-bolder" *ngIf="employeeForm.get('status')?.hasError('required')">Status is required</div>
+              </div>
+            </div>
+  
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" [disabled]="employeeForm.invalid" data-bs-dismiss="modal">Update Employee</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
