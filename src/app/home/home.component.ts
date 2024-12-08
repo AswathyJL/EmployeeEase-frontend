@@ -14,6 +14,7 @@ import { NgIf } from '@angular/common';
 })
 export class HomeComponent {
   allEmployees: EmpInterface[] = [];
+  statusFilteredEmployees: EmpInterface[] =[];
   selectedEmployee:any = {}
 
   employeeForm: FormGroup;
@@ -35,6 +36,7 @@ export class HomeComponent {
     this.api.getEmployee().subscribe({
       next: (employees) => {
         this.allEmployees = employees;
+        this.statusFilteredEmployees = employees
       },
       error: (err) => {
         console.error('Error fetching employees:', err);
@@ -95,6 +97,17 @@ export class HomeComponent {
         this.loadEmployees()
       }
     })
+  }
+
+  onFilter(statusEmp:string){
+    if(statusEmp == "All")
+    {
+      this.statusFilteredEmployees = this.allEmployees
+    }
+    else
+    {
+      this.statusFilteredEmployees = this.allEmployees.filter((emp:any)=>emp.status == statusEmp)
+    }
   }
 }
 

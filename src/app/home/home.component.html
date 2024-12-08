@@ -1,7 +1,19 @@
 <div class="container my-5">
     <div class="d-flex justify-content-between">
         <h1 class="text-primary-emphasis fs-4 fw-bold">Welcome to Employee Ease!</h1>
-        <app-add-emp (employeeAdded)="onEmployeeAdded($event)"></app-add-emp>
+        <div class="d-flex ">
+          <app-add-emp (employeeAdded)="onEmployeeAdded($event)"></app-add-emp>
+          <div class="dropdown">
+            <button  class="btn btn-secondary dropdown-toggle ms-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Filter
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" (click)="onFilter('All')">All</a></li>
+              <li><a class="dropdown-item" (click)="onFilter('Active')" >Active</a></li>
+              <li><a class="dropdown-item" (click)="onFilter('Inactive')">Inactive</a></li>
+            </ul>
+          </div>
+        </div>
     </div>
     <div class="mt-4">
         <table class="table table-success table-hover table-striped">
@@ -16,7 +28,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (employee of allEmployees; track $index;let i=$index) {
+                @for (employee of statusFilteredEmployees; track $index;let i=$index) {
                     <tr>
                         <td>{{i+1}}</td>
                         <td>{{ employee.name }}</td>
