@@ -8,7 +8,7 @@ import { EmpInterface } from '../interfaces/emp-interface';
 })
 export class ApiService {
 
-  server_url = "http://localhost:3000"
+  server_url = "https://employeeease-json-server.onrender.com"
 
   constructor(private http:HttpClient) { }
 
